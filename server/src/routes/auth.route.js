@@ -1,4 +1,4 @@
-import { login, signout, signup, updateProfile } from "../controllers/auth.controller.js"
+import { login, signout, signup, updateProfile, checkAuth } from "../controllers/auth.controller.js"
 import { protectRoute } from "../middleware/auth.middleware.js"
 
 export default async function authRoutes(app) {
@@ -8,6 +8,14 @@ export default async function authRoutes(app) {
 
     app.post("/login",login)
 
-    app.put("/update-profile", protectRoute, updateProfile)
+    app.put("/update-profile", {
+        preHandler: protectRoute, 
+        handler: updateProfile
+    })
+
+    app.get("/check",{
+        preHandler:protectRoute,
+        handler:checkAuth
+    })
 
 }
