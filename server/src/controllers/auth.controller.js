@@ -153,7 +153,6 @@ export const checkAuth = async (request, reply) => {
         return reply.code(200).send(request.user);
     } catch (error) {
         console.log(error.message);
-
         return reply.code(500).send({
             message: "Internal Server Error"
         });
