@@ -118,3 +118,7 @@ export const signout = async (request, reply) => {
     });
   }
 };
+
+export const updateProfile = async (request, reply) => {
+    
+}
