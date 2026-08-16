@@ -65,10 +65,56 @@ export const signup = async (request, reply) => {
   }
 };
 
-export const signout = async (request, reply) => {
-  return "Signout";
+export const login = async (request, reply) => {
+  const {email,password} = request.body;
+
+  try {
+    const user = await User.findOne({email});
+
+    if(!user){
+        return reply.code(400).send({
+            message: 'Invalid credentials'
+        })
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password,user.password);
+
+    if(!isPasswordCorrect){
+        return reply.code(400).send({
+            message: 'Wrong Password!!'
+        })
+    }
+
+    generateToken(user._id,reply)
+
+    reply.code(200).send({
+                _id: user._id,
+                email: user.email,
+                fullName: user.fullName,
+                profilePic: user.profilePic
+            })
+
+  } catch (error) {
+    console.log(error.message);
+    reply.code(500).send({
+        message: "Internal Server Error"
+    })
+  }
 };
 
-export const login = async (request, reply) => {
-  return "Login";
+export const signout = async (request, reply) => {
+  try {
+    reply.cookie("jwt");
+
+    return reply.code(200).send({
+            message: "Logged out successfully"
+    });
+
+  } catch (error) {
+    console.log(error.message);
+
+    return reply.code(500).send({
+        message: "Internal Server Error"
+    });
+  }
 };

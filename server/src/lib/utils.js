@@ -7,8 +7,8 @@ export const generateToken=(userId, reply)=>{
         expiresIn: "7d"
     });
 
-    reply.cookie("jwt",token,{
-        maxAge: 7*24*60*60*1000, // milliseconds
+    reply.setCookie("jwt",token,{
+        maxAge: 7*24*60*60, // seconds due to fastify cookie parser
         httpOnly: true, // prevents XSS attacks cross-site scripting attacks
         sameSite: "strict", // CSRF attacks cross-site request forgery attacks
         secure: config.NODE_ENV !== "development"
