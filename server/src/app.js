@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.routes.js';
+import messageRouter from './routes/message.route.js';
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/api/auth",authRouter);
+app.use("/api/message", messageRouter);
 
 export default app;
